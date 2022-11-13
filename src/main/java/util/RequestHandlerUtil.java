@@ -1,9 +1,8 @@
 package util;
 
-import lombok.Builder;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import model.core.HeaderData;
+import model.core.ResponseData;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
@@ -18,17 +17,7 @@ import java.io.IOException;
 @Slf4j
 public class RequestHandlerUtil {
 
-    @Data
-    @Builder
-    private static class ResData {
-        private int statusCode;
-        private String response;
-
-
-    }
-
-
-    private static ResData sendRequest(ClassicHttpRequest request) {
+    private static ResponseData sendRequest(ClassicHttpRequest request) {
         int statusCode = 0;
         String responseBody = null;
         try (CloseableHttpClient httpclient = HttpClientBuilder.create().build(); CloseableHttpResponse response = httpclient.execute(request)) {
@@ -41,23 +30,22 @@ public class RequestHandlerUtil {
             log.error(e.getMessage());
         }
 
-        return ResData.builder().response(responseBody).statusCode(statusCode).build();
+        return ResponseData.builder().data(responseBody).statusCode(statusCode).build();
     }
 
 
-    public static void httpGET(String url, HeaderData headerData) {
+    public static ResponseData httpGET(String url, HeaderData headerData) {
         HttpGet httpGet = new HttpGet(url);
         setHeaders(httpGet, headerData);
-      ResData resData =  sendRequest(httpGet);
+        return sendRequest(httpGet);
 
     }
 
 
-    private static ClassicHttpRequest setHeaders(ClassicHttpRequest request, HeaderData headerData) {
+    private static void setHeaders(ClassicHttpRequest request, HeaderData headerData) {
         if (headerData.getRequestHeaders().size() > 0) {
             headerData.getRequestHeaders().keySet().forEach(k -> request.setHeader(k, headerData.getRequestHeaders().get(k)));
         }
-        return request;
     }
 
 }
