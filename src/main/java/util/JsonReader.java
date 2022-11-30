@@ -3,7 +3,10 @@ package util;
 import configs.ApplicationConfig;
 import exceptions.JsonFileNotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,26 +27,41 @@ public class JsonReader {
                     String key = filePath[filePath.length - 1].toUpperCase();
                     JSON_FILES.put(key, f);
                 }
-
             });
-
             log.info("Total Data Files :: " + JSON_FILES.size());
         } catch (IOException e) {
             log.error(e.getMessage());
         }
     }
 
-    public static <T> Path getClassName(Class<T> tClass) {
+    public static <T> Path getFilePath(Class<T> tClass) {
         String extractedClassName = tClass.getName().replace("[L", "").replace(";", "");
         String[] arr = extractedClassName.split("\\.");
         String className = arr[arr.length - 1].toUpperCase().concat(".JSON");
-         Path path = JSON_FILES.get(className);
+        Path path = JSON_FILES.get(className);
 
         if (path == null) {
             throw new JsonFileNotFoundException(className + " is not found");
         }
         return path;
     }
+
+
+    public static <T> T[] readJsonFile(Class<T[]> tClass) {
+        StringBuilder stringBuilder = new StringBuilder();
+        Charset charset = StandardCharsets.US_ASCII;
+        try (BufferedReader reader = Files.newBufferedReader(getFilePath(tClass), charset)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+        } catch (IOException x) {
+            log.error(x.getMessage());
+
+        }
+        return ObjectMapperUtil.mapStringArrayToObjectArray(tClass, stringBuilder.toString());
+    }
+
 
 
 }
