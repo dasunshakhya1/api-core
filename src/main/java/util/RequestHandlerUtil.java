@@ -35,6 +35,7 @@ public class RequestHandlerUtil {
 
 
     public static ResponseData httpGET(String url, HeaderData headerData) {
+        log.info(url);
         HttpGet httpGet = new HttpGet(url);
         setHeaders(httpGet, headerData);
         return sendRequest(httpGet);
