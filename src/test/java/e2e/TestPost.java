@@ -1,8 +1,9 @@
 package e2e;
 
 import controller.PostController;
-import model.core.Response;
-import model.data.Post;
+import core.configs.Config;
+import model.Response;
+import models.Post;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

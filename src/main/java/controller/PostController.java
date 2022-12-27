@@ -1,13 +1,14 @@
 package controller;
 
 import configs.ApplicationConfig;
+import core.util.ObjectMapperUtil;
 import enums.HeaderValues;
 import lombok.extern.slf4j.Slf4j;
-import model.core.HeaderData;
-import model.core.Response;
-import model.core.ResponseData;
-import model.data.Post;
-import util.ObjectMapperUtil;
+import model.HeaderData;
+import model.Response;
+import model.ResponseData;
+import models.Post;
+
 import util.RequestHandlerUtil;
 
 @Slf4j
