@@ -12,7 +12,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lombok.version>1.18.24</lombok.version>
         <nxapicore.version>0.1.0</nxapicore.version>
-        <nxjsonparser.version>0.2.2</nxjsonparser.version>
+        <nxjsonparser.version>0.1.0</nxjsonparser.version>
         <testng.version>7.7.0</testng.version>
     </properties>
 
