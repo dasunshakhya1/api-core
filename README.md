@@ -10,7 +10,7 @@
 
 ## Project Overview
 
-**api-core** is a simple library that helps test REST APIs.
+**api-core** is a simple library that helps testing REST APIs.
 
 ## Features
 
